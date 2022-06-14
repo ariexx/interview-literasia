@@ -6,9 +6,12 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repository\ContactRepository;
+use App\Traits\ContactTrait;
 
 class ContactController extends Controller
 {
+    use ContactTrait;
+
     private $contactRepository;
 
     public function __construct(ContactRepository $contactRepositry)
@@ -22,7 +25,11 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = $this->contactRepository->getAll();
+        //repository pattern
+        // $contacts = $this->contactRepository->getAll();
+
+        //traits
+        $contacts = $this->getContacts();
         return response()->json([
             'success' => true,
             'data' => $contacts
