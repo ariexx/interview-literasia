@@ -91,15 +91,16 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Contact $request, $contactId)
+    public function update(Request $request, $id)
     {
-        $contactId = $request->route('id');
+        $id = $request->route('id');
         $contactDetails = $request->only([
             'name', 'number', 'is_active'
         ]);
+        // dd($this->contactRepository->updateContact($id, $contactDetails));
         return response()->json([
             'success' => true,
-            'data' => $this->contactRepository->updateContact($contactId, $contactDetails)
+            'data' => $this->contactRepository->updateContact($id, $contactDetails)
         ], 200);
     }
 
@@ -109,8 +110,13 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $id = $request->route('id');
+        $contact = $this->contactRepository->deleteContact($id);
+        return response()->json([
+            'success' => true,
+            'data' => $contact
+        ], 200);
     }
 }

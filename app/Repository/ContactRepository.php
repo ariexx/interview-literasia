@@ -28,8 +28,14 @@ class ContactRepository
 
     public function updateContact($id, array $contactDetails)
     {
-        $contact = Contact::query()->whereId($id)->update($contactDetails);
-        return $this->format($contact);
+        $contact = Contact::whereId($id)->update($contactDetails);
+        return $contact;
+    }
+
+    public function deleteContact($id)
+    {
+        $contact = Contact::whereId($id)->delete();
+        return $contact;
     }
 
     public function format($contact)
