@@ -8,6 +8,8 @@ use App\Http\Resources\ContactCollection;
 
 class ContactRepository
 {
+    protected $model;
+
     public function __construct(Contact $model)
     {
         $this->model = $model;
