@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\API;
 
+use Exception;
 use App\Models\Contact;
+use App\Traits\ContactTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repository\ContactRepository;
-use App\Traits\ContactTrait;
+use App\Services\ContactService;
 
 class ContactController extends Controller
 {
     use ContactTrait;
 
-    private $contactRepository;
+    protected $service;
 
-    public function __construct(ContactRepository $contactRepositry)
+    public function __construct(ContactService $service)
     {
-        $this->contactRepository = $contactRepositry;
+        $this->service = $service;
     }
     /**
      * Display a listing of the resource.
@@ -26,14 +27,15 @@ class ContactController extends Controller
     public function index()
     {
         //repository pattern
-        // $contacts = $this->contactRepository->getAll();
-
-        //traits
-        $contacts = $this->getContacts();
-        return response()->json([
-            'success' => true,
-            'data' => $contacts
-        ], 200);
+        try {
+            $contacts = $this->service->getAll();
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+        return $contacts;
     }
 
     /**
@@ -54,14 +56,19 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $contactDetails = $request->only([
             'name', 'number'
         ]);
-        return response()->json([
-            'success' => true,
-            'data' => $this->contactRepository->createContact($contactDetails)
-        ], 201);
+        try {
+            $result = $this->service->saveContact($contactDetails);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+        return $result;
     }
 
     /**

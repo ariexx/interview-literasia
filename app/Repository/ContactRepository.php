@@ -3,27 +3,42 @@
 namespace App\Repository;
 
 use App\Models\Contact;
+use App\Http\Resources\ContactResource;
+use App\Http\Resources\ContactCollection;
 
 class ContactRepository
 {
+    public function __construct(Contact $model)
+    {
+        $this->model = $model;
+    }
+
+    public function save($data)
+    {
+        $table = new $this->model;
+        $table->fill($data);
+        $table->save();
+
+        $result = new ContactResource($table);
+        return $result;
+    }
+
     public function getAll()
     {
-        $contacts = Contact::orderBy('id')->where('is_active', 1)->get()->map(function ($contact) {
-            return $this->format($contact);
-        });
-        return $contacts;
+        $query = $this->model->where('is_active', 1)->get();
+        return new ContactCollection($query);
     }
 
     public function getById($id)
     {
         $contact = Contact::query()->where('id', $id)->firstOrFail();
-        return $this->format($contact);
+        return new ContactCollection($this->format($contact));
     }
 
     public function createContact(array $contactDetails)
     {
         $contact = Contact::create($contactDetails);
-        return $this->format($contact);
+        return new ContactResource($this->format($contact));
     }
 
     public function updateContact($id, array $contactDetails)
