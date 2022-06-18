@@ -27,8 +27,9 @@ class UserResource extends JsonResource
                         'id' => $post->id,
                         'title' => $post->title,
                         'body' => $post->body,
+                        'tags' => $post->tags->map(fn ($tag) => $tag->name),
                         'created_at' => $post->created_at,
-                        'updated_at' => $post->updated_at
+                        'updated_at' => $post->updated_at,
                     ];
                 }),
             ];

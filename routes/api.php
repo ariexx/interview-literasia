@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ContactController;
 
@@ -35,3 +36,6 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}/posts', [UserController::class, 'posts']);
     Route::get('/posts/{id}', [UserController::class, 'post']);
 });
+
+//tags
+Route::get('/{slug}/posts', [PostController::class, 'index']);

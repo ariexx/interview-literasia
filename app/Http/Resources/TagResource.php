@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,9 @@ class PostResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'body' => $this->body,
-            'tags' => $this->tags->map(fn ($tag) => $tag->name), //kenapa harus di map ????
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'author' => $this->user->name,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'posts' => new PostResource($this->posts)
         ];
     }
 
@@ -30,7 +27,7 @@ class PostResource extends JsonResource
     {
         return [
             'success' => true,
-            'message' => 'Success Get Single Post'
+            'message' => 'Successfully'
         ];
     }
 }

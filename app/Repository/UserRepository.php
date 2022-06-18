@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
-use App\Http\Resources\PostResource;
 
 class UserRepository
 {
@@ -36,9 +36,12 @@ class UserRepository
 
     public function getAll()
     {
+
         $query = $this->user->get();
-        new UserCollection($query);
+
+        return new UserCollection($query);
     }
+
 
     public function getById($id)
     {
