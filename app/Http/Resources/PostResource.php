@@ -19,7 +19,16 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'tags' => $this->tags->map(fn ($tag) => $tag->name), //kenapa harus di map ????
+            'tags' => $this->tags->map(fn ($tag) => $tag->name), //di map untuk mengambil beberapa column saja
+            'comments' => $this->comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'user_id' => $comment->user_id,
+                    'body' => $comment->body,
+                    'created_at' => $comment->created_at,
+                    'updated_at' => $comment->updated_at,
+                ];
+            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'author' => $this->user->name,

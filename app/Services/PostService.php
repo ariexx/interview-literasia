@@ -16,4 +16,9 @@ class PostService
     {
         return $this->repo->getPostsByTag($slug);
     }
+
+    // public function getCommentsPost($id)
+    // {
+    //     return $this->repo->getCommentsPost($id);
+    // }
 }

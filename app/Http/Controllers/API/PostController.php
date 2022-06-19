@@ -18,4 +18,9 @@ class PostController extends Controller
     {
         return $this->service->getPostsByTag($slug);
     }
+
+    // public function getCommentsPost($id) //id post
+    // {
+    //     return $this->service->getCommentsPost($id);
+    // }
 }

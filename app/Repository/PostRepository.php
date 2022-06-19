@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Http\Resources\PostResource;
 use App\Models\Tag;
 use App\Models\Post;
 use App\Http\Resources\TagResource;
@@ -24,4 +25,10 @@ class PostRepository
         // return $result;
         return new TagResource($result);
     }
+
+    // public function getCommentsPost($id)
+    // {
+    //     $result = $this->model->findOrFail($id)->comments;
+    //     return new PostResource($result);
+    // }
 }

@@ -39,3 +39,5 @@ Route::prefix('user')->group(function () {
 
 //tags
 Route::get('/{slug}/posts', [PostController::class, 'index']);
+
+//posts
