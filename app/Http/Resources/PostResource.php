@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -23,7 +24,9 @@ class PostResource extends JsonResource
             'comments' => $this->comments->map(function ($comment) {
                 return [
                     'id' => $comment->id,
-                    'user_id' => $comment->user_id,
+                    // 'user_id' => $comment->user_id,
+                    // 'name' => User::find($comment->user_id)->name, //masih menemukan cara ini, belum menemukan cara lain
+                    'name' => $this->user->find($comment->user_id)->name, //hahahaha, ternyata bisa memakai cara ini yagesya
                     'body' => $comment->body,
                     'created_at' => $comment->created_at,
                     'updated_at' => $comment->updated_at,
